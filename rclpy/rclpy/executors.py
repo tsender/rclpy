@@ -279,8 +279,9 @@ class Executor:
             self.spin_once()
 
     def spin_until_future_complete(
-        self, future: Future,
-        timeout_sec: Optional[float] = None) -> None:
+            self,
+            future: Future,
+            timeout_sec: Optional[float] = None) -> None:
         """Execute callbacks until a given future is done or a timeout occurs."""
         # Make sure the future wakes this executor when it is done
         future.add_done_callback(lambda x: self.wake())
@@ -711,7 +712,7 @@ class Executor:
 class SingleThreadedExecutor(Executor):
     """Runs callbacks in the thread that calls :meth:`Executor.spin`."""
 
-    def __init__(self, *, context: Optional[Context]= None) -> None:
+    def __init__(self, *, context: Optional[Context] = None) -> None:
         super().__init__(context=context)
 
     def spin_once(self, timeout_sec: Optional[float] = None) -> None:
@@ -726,7 +727,10 @@ class SingleThreadedExecutor(Executor):
             if handler.exception() is not None:
                 raise handler.exception()
 
-    def spin_once_until_future_complete(self, future: Future, timeout_sec: Optional[float] = None) -> None:
+    def spin_once_until_future_complete(
+            self,
+            future: Future,
+            timeout_sec: Optional[float] = None) -> None:
         self.spin_once(timeout_sec)
 
 
@@ -740,7 +744,10 @@ class MultiThreadedExecutor(Executor):
     :param context: The context associated with the executor.
     """
 
-    def __init__(self, num_threads: Optional[int] = None, *, context: Optional[Context] = None) -> None:
+    def __init__(
+            self,
+            num_threads: Optional[int] = None,
+            *, context: Optional[Context] = None) -> None:
         super().__init__(context=context)
         if num_threads is None:
             try:
@@ -771,5 +778,8 @@ class MultiThreadedExecutor(Executor):
     def spin_once(self, timeout_sec: Optional[float] = None) -> None:
         self._spin_once_impl(timeout_sec)
 
-    def spin_once_until_future_complete(self, future: Future, timeout_sec: Optional[float] = None) -> None:
+    def spin_once_until_future_complete(
+            self,
+            future: Future,
+            timeout_sec: Optional[float] = None) -> None:
         self._spin_once_impl(timeout_sec, future.done)

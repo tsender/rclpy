@@ -50,7 +50,6 @@ from rclpy.signals import install_signal_handlers
 from rclpy.signals import SignalHandlerOptions
 from rclpy.signals import uninstall_signal_handlers
 from rclpy.task import Future
-from rclpy.executors import Executor
 from rclpy.utilities import get_default_context
 from rclpy.utilities import get_rmw_implementation_identifier  # noqa: F401
 from rclpy.utilities import ok  # noqa: F401 forwarding to this module
@@ -112,9 +111,9 @@ def get_global_executor() -> 'Executor':
 
 
 def shutdown(
-    *,
-    context: Optional[Context] = None,
-    uninstall_handlers: Optional[bool] = None) -> None:
+        *,
+        context: Optional[Context] = None,
+        uninstall_handlers: Optional[bool] = None) -> None:
     """
     Shutdown a previously initialized context.
 
@@ -185,7 +184,11 @@ def create_node(
         ))
 
 
-def spin_once(node: 'Node', *, executor: Optional[Executor] = None, timeout_sec: Optional[float] = None) -> None:
+def spin_once(
+        node: 'Node',
+        *,
+        executor: Optional[Executor] = None,
+        timeout_sec: Optional[float] = None) -> None:
     """
     Execute one item of work or wait until a timeout expires.
 
