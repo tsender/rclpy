@@ -111,7 +111,10 @@ def get_global_executor() -> 'Executor':
     return __executor
 
 
-def shutdown(*, context: Optional[Context] = None, uninstall_handlers: Optional[bool] = None) -> None:
+def shutdown(
+    *,
+    context: Optional[Context] = None,
+    uninstall_handlers: Optional[bool] = None) -> None:
     """
     Shutdown a previously initialized context.
 

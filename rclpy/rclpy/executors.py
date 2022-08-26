@@ -278,7 +278,9 @@ class Executor:
         while self._context.ok() and not self._is_shutdown:
             self.spin_once()
 
-    def spin_until_future_complete(self, future: Future, timeout_sec: Optional[float] = None) -> None:
+    def spin_until_future_complete(
+        self, future: Future,
+        timeout_sec: Optional[float] = None) -> None:
         """Execute callbacks until a given future is done or a timeout occurs."""
         # Make sure the future wakes this executor when it is done
         future.add_done_callback(lambda x: self.wake())
